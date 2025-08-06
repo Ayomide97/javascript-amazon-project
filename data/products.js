@@ -656,5 +656,22 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "bc20250804183258-713",
+    image: "images/products/umbrella.jpg",
+    name: "Lightweight Umbrella",
+    rating: {
+      stars: 3,
+      count: 300
+    },
+    priceCents: 3900,
+    keywords: [
+      "umbrella",
+      "outdoors",
+      "weather",
+      "rain"
+    ]
+
   }
 ];
