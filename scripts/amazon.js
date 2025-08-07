@@ -1,12 +1,13 @@
 
- import {cart} from '../data/cart.js'
+ import {cart, addToCart} from '../data/cart.js';
  import {products} from '../data/products.js'; 
+
+
 
 let productsHTML = '';
 
-
-
-//Generate the Html for each product in the array , for each loop will go through each product and generate html
+// Generate the HTML for each product in the products array.
+// The forEach loop goes through each product and adds its HTML to productsHTML.
 
 products.forEach((product) => {
 
@@ -65,26 +66,57 @@ products.forEach((product) => {
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
+
+// Object to track timeouts for the "Added" notification for each product
 let addedCartTimeouts =  {};
 
 
 
+
+  // Update the cart quantity in the navbar and recalculate the total when the dropdown is used
+  function updateCartQuantity()
+  {
+    let cartQuantity = 0;
+
+
+    
+    cart.forEach((cartItem) =>{
+
+      cartQuantity += cartItem.quantity;
+    
+
+    });
+
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = cartQuantity;
+
+
+    console.log(cartQuantity);
+    console.log(cart)
+  }
+
+  
+
+// Code for what happens when an "Add to Cart" button is clicked
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click',() => {
 
       const productId = button.dataset.productId;
+
+     
+
+
+      // Show the "Added" notification and set a timeout to hide it after 2 seconds
       const addedCart = document.querySelector(`.js-added-to-cart-${productId}`);
 
       addedCart.classList.add("added-to-cart-active")
-
 
       if (addedCartTimeouts[productId]){
 
         clearTimeout(addedCartTimeouts[productId]);
 
       }
-
 
       addedCartTimeouts[productId] = setTimeout(()=>{
 
@@ -95,74 +127,13 @@ document.querySelectorAll('.js-add-to-cart')
         
 
     
-
-
-
-
-
-
-
-     /* setTimeout(function(){
-
-        addedCart.classList.remove("added-to-cart-active")
-
-      },2000)*/
    
-      let matchingItem;
-
-      cart.forEach((item) => {
-
-        if (productId === item.productId){
-
-          matchingItem = item;
-
-        }
-
-      });
-
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
       const quantity = Number(quantitySelector.value);
   
-      
-
-    
-
-
-
-
-
-
-      if(matchingItem){
-
-        matchingItem.quantity += quantity;
-
-      } else {
-    
-        cart.push({
-        productId: productId,
-        quantity: quantity
-        });
-
-      }
-
-      
-      let cartQuantity = 0;
-
-
-      
-      cart.forEach((item) =>{
-
-        cartQuantity += item.quantity;
-      
-
-      });
-
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
-
-
-      console.log(cartQuantity);
-      console.log(cart)
+      addToCart(productId,quantity);
+      updateCartQuantity();
+     
     });
 
   });
