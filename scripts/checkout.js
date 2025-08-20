@@ -8,7 +8,6 @@ updateCartQuantity();
 
 
 
-
 function updateCartQuantity()
 {
   
