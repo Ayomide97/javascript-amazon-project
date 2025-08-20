@@ -1,5 +1,9 @@
 import {products} from "../data/products.js"
+
+
+
 export let cart = JSON.parse(localStorage.getItem('cart'));
+
 
 if(!cart){
 
@@ -73,3 +77,59 @@ export function removeFromCart(productId)
 
   saveToStorage();
 }
+
+export function calculateCartQuantity(){
+
+     
+  cart.forEach((cartItem) =>{
+
+    cartQuantity += cartItem.quantity;
+  
+
+  });
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+
+
+
+  localStorage.setItem(cartQuantity, JSON.stringify('cartQuantity'))
+
+  return cartQuantity;
+
+
+}
+
+
+export function updateQuantity(productId, newQuantity)
+{
+
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+
+    if(productId === cartItem.productId){
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.quantity = newQuantity;
+
+  saveToStorage();
+}
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
