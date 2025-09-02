@@ -3,9 +3,13 @@ import {products} from '../data/products.js';
 import {formatCurrency} from '../scripts/utils/money.js'
 import {removeFromCart} from '../data/cart.js';
 import {calculateCartQuantity} from '../data/cart.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
 
 updateCartQuantity();
 
+const today = dayjs();
+const deliveryDate = today.add(7, 'days');
+console.log(deliveryDate.format('dddd,MMMM D'));
 
 
 function updateCartQuantity()
