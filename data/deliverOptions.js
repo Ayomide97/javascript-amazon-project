@@ -17,3 +17,24 @@ export const deliveryOptions = [{
   deliveryDays: 1,            // Delivery takes 1 day
   priceCents: 999             // $9.99 shipping cost
 }];
+
+
+export function getDeliveryOption(deliveryOptionId){
+
+ let deliveryOption;
+
+  deliveryOptions.forEach((option)=>{
+
+    if(option.id === deliveryOptionId)
+    {
+
+      deliveryOption = option;
+
+    }
+
+  });
+
+  return deliveryOption || deliveryOptions[0];
+
+
+}

@@ -10,12 +10,12 @@
 
 // Import necessary modules
 import{cart, updateQuantity, updateDeliveryOption} from '../../data/cart.js'        // Cart data and quantity updates
-import {products} from '../../data/products.js';              // Product catalog
+import {products, getProduct} from '../../data/products.js';              // Product catalog
 import {formatCurrency} from '../../scripts/utils/money.js'    // Currency formatting
 import {removeFromCart} from '../../data/cart.js';            // Remove items from cart
 import {calculateCartQuantity} from '../../data/cart.js';     // Calculate total items
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'  // Date manipulation library
-import{deliveryOptions} from '../../data/deliverOptions.js'   // Available delivery options
+import{deliveryOptions, getDeliveryOption} from '../../data/deliverOptions.js'   // Available delivery options
 
 
 
@@ -60,35 +60,12 @@ export function renderOrderSummary(){
 
     const productId = cartItem.productId
 
-    let matchingProduct;
-
-    products.forEach((product)=>{
-
-      if(product.id === productId){
-
-        matchingProduct = product;
-
-      }
-
-    });
-
-    console.log(matchingProduct);
+    const matchingProduct = getProduct(productId);
 
 
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option)=>{
-
-      if(option.id === deliveryOptionId)
-      {
-
-        deliveryOption = option;
-
-      }
-
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
 
     const today = dayjs();
