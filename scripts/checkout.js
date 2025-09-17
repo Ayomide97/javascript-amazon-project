@@ -1,10 +1,21 @@
-import{cart, updateQuantity} from '../data/cart.js'
-import {products} from '../data/products.js';
-import {formatCurrency} from '../scripts/utils/money.js'
-import {removeFromCart} from '../data/cart.js';
-import {calculateCartQuantity} from '../data/cart.js';
-import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
-import{deliveryOptions} from '../data/deliverOptions.js'
+// ========================================
+// CHECKOUT PAGE FUNCTIONALITY
+// ========================================
+// This file handles the checkout page where users can:
+// - View items in their cart
+// - Update quantities
+// - Remove items
+// - Select delivery options
+// - See delivery dates and costs
+
+// Import necessary modules
+import{cart, updateQuantity} from '../data/cart.js'        // Cart data and quantity updates
+import {products} from '../data/products.js';              // Product catalog
+import {formatCurrency} from '../scripts/utils/money.js'    // Currency formatting
+import {removeFromCart} from '../data/cart.js';            // Remove items from cart
+import {calculateCartQuantity} from '../data/cart.js';     // Calculate total items
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'  // Date manipulation library
+import{deliveryOptions} from '../data/deliverOptions.js'   // Available delivery options
 
 
 
@@ -60,10 +71,43 @@ cart.forEach((cartItem) => {
 
   console.log(matchingProduct);
 
+
+  const deliveryOptionId = cartItem.deliveryOptionId;
+
+  let deliveryOption;
+
+  deliveryOptions.forEach((option)=>{
+
+    if(option.id === deliveryOptionId)
+    {
+
+      deliveryOption = option;
+
+    }
+
+  });
+
+
+  const today = dayjs();
+
+  const deliveryDate = today.add(
+
+    deliveryOption.deliveryDays,
+    'days'
+  );
+
+  const dateString = deliveryDate.format('dddd, MMMM, D');
+
+
+
+
+
+
+
   cartSummaryHTML +=`
     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
       <div class="delivery-date">
-        Delivery date: Tuesday, June 21
+        Delivery date: ${dateString}
       </div>
 
       <div class="cart-item-details-grid">
@@ -97,7 +141,7 @@ cart.forEach((cartItem) => {
             Choose a delivery option:
           </div>
 
-          ${deliveryOptionsHTML(matchingProduct)}
+          ${deliveryOptionsHTML(matchingProduct,cartItem)}
  
         
         </div>
@@ -109,7 +153,7 @@ cart.forEach((cartItem) => {
 
 });
 
-function deliveryOptionsHTML(matchingProduct){
+function deliveryOptionsHTML(matchingProduct,cartItem){
 
   let html = '';
 
@@ -131,14 +175,14 @@ function deliveryOptionsHTML(matchingProduct){
     : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
     const isChecked = deliveryOption.id === 
-    cartItem.deliveryOptionID;
+    cartItem.deliveryOptionId;
 
 
     html +=
     `
        <div class="delivery-option">
             <input type="radio"
-              checked
+              ${isChecked ? 'checked' : ''}
               class="delivery-option-input"
               name="delivery-option-${matchingProduct.id}">
             <div>

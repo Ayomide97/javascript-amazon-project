@@ -1,3 +1,17 @@
+// ========================================
+// PRODUCT CATALOG DATA
+// ========================================
+// This file contains the complete product catalog for the Amazon clone
+// Each product object includes:
+// - id: Unique identifier for the product
+// - image: Path to product image file
+// - name: Product display name
+// - rating: Object with stars (0-5) and review count
+// - priceCents: Price in cents (converted to dollars in display)
+// - keywords: Array of search keywords for the product
+// - type: Optional product type (e.g., "clothing")
+// - sizeChartLink: Optional link to size chart for clothing items
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
