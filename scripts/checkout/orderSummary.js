@@ -16,7 +16,7 @@ import {removeFromCart} from '../../data/cart.js';            // Remove items fr
 import {calculateCartQuantity} from '../../data/cart.js';     // Calculate total items
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'  // Date manipulation library
 import{deliveryOptions, getDeliveryOption} from '../../data/deliverOptions.js'   // Available delivery options
-
+import {renderPaymentSummary} from './paymentSummary.js';
 
 
 
@@ -26,9 +26,7 @@ export function renderOrderSummary(){
 
   updateCartQuantity();
 
-  const today = dayjs();
-  const deliveryDate = today.add(7, 'days');
-  console.log(deliveryDate.format('dddd,MMMM D'));
+  
 
 
   function updateCartQuantity()
@@ -196,6 +194,8 @@ export function renderOrderSummary(){
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
       container.remove();
       updateCartQuantity();
+
+      renderPaymentSummary();
     });
 
     
@@ -208,7 +208,7 @@ export function renderOrderSummary(){
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
-    
+      renderPaymentSummary();
     });
   });
 
@@ -261,6 +261,7 @@ export function renderOrderSummary(){
         return;
 
       }
+      renderPaymentSummary();
 
     });
 
