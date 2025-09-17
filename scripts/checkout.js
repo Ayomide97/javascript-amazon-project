@@ -9,7 +9,7 @@
 // - See delivery dates and costs
 
 // Import necessary modules
-import{cart, updateQuantity} from '../data/cart.js'        // Cart data and quantity updates
+import{cart, updateQuantity, updateDeliveryOption} from '../data/cart.js'        // Cart data and quantity updates
 import {products} from '../data/products.js';              // Product catalog
 import {formatCurrency} from '../scripts/utils/money.js'    // Currency formatting
 import {removeFromCart} from '../data/cart.js';            // Remove items from cart
@@ -180,7 +180,9 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
 
     html +=
     `
-       <div class="delivery-option">
+       <div class="delivery-option js-delivery-option"
+       data-product-id="${matchingProduct.id}"
+       data-delivery-option-id="${deliveryOption.id}">
             <input type="radio"
               ${isChecked ? 'checked' : ''}
               class="delivery-option-input"
@@ -201,7 +203,7 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
 
 
 
-document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML
+document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML ;
 
 document.querySelectorAll('.js-delete-link').forEach((link) => {
 
@@ -219,7 +221,15 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
   
 });
 
+document.querySelectorAll('.js-delivery-option').forEach((element)=>{
+  element.addEventListener('click',() =>{
 
+
+    const {productId, deliveryOptionId} = element.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
+  
+  });
+});
 
 document.querySelectorAll(`.js-update-link`).forEach((link)=>{
 
